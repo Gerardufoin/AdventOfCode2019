@@ -9,6 +9,16 @@ namespace Advent2019
     public static class Utils
     {
         /// <summary>
+        /// Output and error and terminate the program
+        /// </summary>
+        /// <param name="message">Error to output</param>
+        public static void FatalError(string message)
+        {
+            Console.WriteLine("Fatal Error: " + message);
+            System.Environment.Exit(0);
+        }
+
+        /// <summary>
         /// Get the content of a file and handle errors.
         /// </summary>
         /// <param name="args">Arguments of the program. The path to the file should be the only argument.</param>
@@ -26,8 +36,7 @@ namespace Advent2019
             }
             catch
             {
-                Console.WriteLine("Error: Failed to read the input file '" + args[0] + "'.");
-                System.Environment.Exit(0);
+                FatalError("Failed to read the input file '" + args[0] + "'.");
             }
             return "";
         }
