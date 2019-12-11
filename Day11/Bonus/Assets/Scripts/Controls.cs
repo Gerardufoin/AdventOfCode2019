@@ -10,6 +10,8 @@ public class Controls : MonoBehaviour
     private Button _faster = null;
     [SerializeField]
     private Button _slower = null;
+    [SerializeField]
+    private Text _speedDisplay = null;
 
     [SerializeField]
     private List<float> _availableSpeed = new List<float>() { 1f, 2f, 4f, 10f };
@@ -25,6 +27,7 @@ public class Controls : MonoBehaviour
         {
             _faster.interactable = false;
         }
+        _speedDisplay.text = "x" + _availableSpeed[GameDatas.SpeedIndex];
     }
 
     public float GetSpeed()
@@ -43,6 +46,7 @@ public class Controls : MonoBehaviour
             _faster.interactable = false;
         }
         _slower.interactable = true;
+        _speedDisplay.text = "x" + _availableSpeed[GameDatas.SpeedIndex];
     }
 
     public void SpeedDown()
@@ -56,6 +60,7 @@ public class Controls : MonoBehaviour
             _slower.interactable = false;
         }
         _faster.interactable = true;
+        _speedDisplay.text = "x" + _availableSpeed[GameDatas.SpeedIndex];
     }
 
     public void LoadWhite()
