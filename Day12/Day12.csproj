@@ -6,12 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Bonus\**" />
-    <EmbeddedResource Remove="Bonus\**" />
-    <None Remove="Bonus\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="..\Tools\Utils.cs" Link="Utils.cs" />
   </ItemGroup>
 
