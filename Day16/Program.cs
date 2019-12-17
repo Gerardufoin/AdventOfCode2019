@@ -7,12 +7,23 @@ namespace Day16
 {
     class Program
     {
+        /// <summary>
+        /// Get the signal from the input and split it into a list of integer
+        /// </summary>
+        /// <param name="input">Input got from the file passed to the program</param>
+        /// <returns>The list of each digit of the signal</returns>
         static List<int> GetSignal(string input)
         {
             return Regex.Matches(input, @"\d{1}").Cast<Match>().Select(c => int.Parse(c.Value)).ToList();
         }
 
         #region Part 1
+        /// <summary>
+        /// Apply the given pattern to the signal.
+        /// </summary>
+        /// <param name="signal">Current state of the signal</param>
+        /// <param name="pattern">Pattern to apply</param>
+        /// <returns>The new state of the signal</returns>
         static List<int> ApplyPattern(List<int> signal, int[] pattern)
         {
             List<int> newPattern = new List<int>();
@@ -23,6 +34,13 @@ namespace Day16
             return newPattern;
         }
 
+        /// <summary>
+        /// Apply the pattern to the signal as many time as phases.
+        /// </summary>
+        /// <param name="signal">The signal to modify</param>
+        /// <param name="pattern">The pattern to apply</param>
+        /// <param name="phases">Number of time the pattern has to be applied</param>
+        /// <returns>The modified signal</returns>
         static List<int> FlawedFrequencyTransmission(List<int> signal, int[] pattern, int phases)
         {
             for (int i = 0; i < phases; ++i)
@@ -32,6 +50,15 @@ namespace Day16
             return signal;
         }
 
+        #endregion
+
+        #region Part 2 (slow ~20sec)
+        /// <summary>
+        /// Create a list of n times the signal.
+        /// </summary>
+        /// <param name="signal">Signal to duplicate</param>
+        /// <param name="n">Number of time the signal has to be duplicated</param>
+        /// <returns>A list containing n times the signal</returns>
         static List<int> RepeatSignal(List<int> signal, int n)
         {
             List<int> ret = new List<int>();
@@ -41,9 +68,12 @@ namespace Day16
             }
             return ret;
         }
-        #endregion
 
-        #region Part 2 (slow ~20sec)
+        /// <summary>
+        /// A new signal is created by additioning all the values from the end of the signal to the start.
+        /// </summary>
+        /// <param name="signal">The current signal</param>
+        /// <returns>The new signal</returns>
         static List<int> ApplyPatternForP2(List<int> signal)
         {
             LinkedList<int> newPattern = new LinkedList<int>();
@@ -61,6 +91,17 @@ namespace Day16
             return new List<int>(newPattern);
         }
 
+        /// <summary>
+        /// If we analyse the given pattern [0, 1, 0, -1] in our current situation, we can deduce 2 things.
+        /// First, once we reach the addition of offset, all the value before will be multiplied by 0, same with all the following values.
+        /// As such, we can simply ignore the beginning of the signal until the offset.
+        /// Second, as the value we are dealing with is so big, the value of the pattern will always be 0 from the offset to the end. Meaning all the values after the offset will always be positive and non zero.
+        /// That means that the value 0 of the offset is the addition of all the value since the end of the signal until the offset. The value 1 is the sum from the end to offset+1, and so on.
+        /// </summary>
+        /// <param name="signal"></param>
+        /// <param name="phases"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
         static List<int> FFTWithOffset(List<int> signal, int phases, int offset)
         {
             // Because our pattern begins with 0, all numbers before the offset will be 0 once we reach the offset
@@ -74,6 +115,12 @@ namespace Day16
         #endregion
 
         #region Math Part 2 (failed to simplify the formula, unusable as it is, longer than the previous method)
+        /// <summary>
+        /// Tried to optimized the second part by finding a mathematical formula allowing you to directly calculate the value of the offset without the need to loop 100 times.
+        /// The idea works in theory but to find the correct formula there is a need to loop through multiple value in a recursive manner which takes much more time than the simpler method.
+        /// It may be possible to simplify the formula and prevent the need to loop recursively, but unfortunately that's beyond my mathematical knowledges :(
+        /// </summary>
+
         static long DeepPhibonacci(int n, int depth, Dictionary<(int num, int depth), int> memory)
         {
             if (depth < 1)
